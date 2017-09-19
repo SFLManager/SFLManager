@@ -1,0 +1,253 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+    var customInterpolationApp = angular.module('customInterpolationApp', ['ngSanitize']);
+
+    customInterpolationApp.config(function($interpolateProvider) {
+        $interpolateProvider.startSymbol('//');
+        $interpolateProvider.endSymbol('//');
+    });
+
+
+    customInterpolationApp.controller('DemoController', function($scope, $http) {
+        var professor = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/store", {
+            params: {
+                "creator": professor
+            }
+        }).then(function(response) {
+            $scope.myData = response.data;
+        });
+    });
+    //Same as above because I need a second controller just to get the module names for the drop down form menu
+    customInterpolationApp.controller('uploadingAssignment', function($scope, $http) {
+        var professor = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/store", {
+            params: {
+                "creator": professor
+            }
+        }).then(function(response) {
+            $scope.myData = response.data;
+        });
+    });
+    //This is used for returning the assignments the teacher has created
+    customInterpolationApp.controller('returnAssignment', function($scope, $http) {
+        var professor = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/returnAssignments", {
+            params: {
+                "creator": professor
+            }
+        }).then(function(response) {
+            $scope.assignments = response.data;
+            //$scope.text = response.data.text;
+        });
+    });
+
+</script>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/functions.js"></script>
+
+
+
+<script src="https://code.angularjs.org/1.5.2/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.js"></script>
+
+
+<div ng-app="customInterpolationApp">
+    <h2 id="postUserName" class="align">Dashboard</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-panel" id="scrolly">
+                    <div class="tabbable-line">
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#tab_default_1" data-toggle="tab">
+							Create Class </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_2" data-toggle="tab">
+							View Classes </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_3" data-toggle="tab">
+							Create Assignment </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_4" data-toggle="tab">
+							View Assignments </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_5" data-toggle="tab">
+							Testing Annotator </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_default_1">
+                                <p class="align">Enter Class Details below:</p>
+                                <form method="post" action="/classes/register">
+                                    <div class="form-group">
+                                        <label>Module Code</label>
+                                        <input type="text" class="form-control" placeholder="e.g. CS230" name="modulecode">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Module Name</label>
+                                        <input type="text" class="form-control" placeholder="e.g. Web Infromation Processing" name="modulename">
+                                    </div>
+                                    <div class="form-group">
+                                        <!--<label class="hiding">Professor</label> -->
+                                        <input type="text" class="form-control" placeholder="e.g. Prof. John Keating" name="moduleprofessor" id="moduleprofessor">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Key for Students</label>
+                                        <input type="text" class="form-control" placeholder="e.g. CS230JKMU" name="modulekey" id="modulekey">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                </form>
+
+                            </div>
+                            <div class="tab-pane" id="tab_default_2">
+                                <div ng-controller="DemoController as demo">
+                                    <table style="width:auto" class="table">
+                                        <tr>
+                                            <th>Professor</th>
+                                            <th>Module Name</th>
+                                            <th>Module Code</th>
+                                            <th>Module Key</th>
+                                        </tr>
+                                        <tr ng-repeat="x in myData">
+                                            <td>//x.creator//</td>
+                                            <td>//x.className//</td>
+                                            <td>//x.classCode//</td>
+                                            <td>//x.classKey //</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab_default_3" ng-controller="uploadingAssignment">
+                                <div ng-controller="uploadingAssignment">
+                                    <form method="post" action="/classes/test" encType="multipart/form-data">
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            <input type="text" class="form-control" name="username2" placeholder="Admin_S" id="username2">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Module</label><br>
+                                            <select name="module" class="form-control">
+                            <option ng-repeat="x in myData" >//x.classCode//</option>
+                        </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Title</label><br>
+                                            <input type="text" class="form-control" name="title" placeholder="Annotate this piece of text">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Description</label><br>
+                                            <textarea rows="4" cols="50" name="description" class="form-control">
+                            </textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Text File (if needed)</label>
+                                            <input type="file" class="form-control" name="file" placeholder="assignment.txt" id="files">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" class="form-control" id="sean">Send Text</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Text Area</label><br>
+                                            <textarea rows="4" cols="80" id="name" name="assignmentText"></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-default">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab_default_4">
+                                <div ng-controller="returnAssignment">
+                                    <table style="width:100%" class="table" id="assignmentsTable">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Module</th>
+                                            <th>Professor</th>
+                                            <th>Title</th>
+                                            <th>Date</th>
+                                            <th>Edit Clauses</th>
+                                        </tr>
+                                        <tr ng-repeat="x in assignments" onclick="modalClauses(this)">
+                                            <td>//$index +1//</td>
+                                            <td>//x.module//</td>
+                                            <td>//x.creator//</td>
+                                            <td ng-bind-html="x.title"></td>
+                                            <td>//x.date//</td>
+                                            <td ng-bind-html="x.text" style="display:none;"></td>
+                                            <td ng-bind-html="x.description" style="display:none;"></td>
+                                            <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Edit Clauses and Text</button></td>
+                                        </tr>
+                                    </table>
+
+                                    <div id="myModal" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 id="modalTitle" class="modal-title" style="text-align:center;">Edit Clauses</h4><br>
+                                                    <h5 id="modalDescription" class="modal-title" style="text-align:center;"></h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="modalText" style="font-size:150%" contenteditable="true"></div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input id="keypadDisplay" class="form-control" type="" value="" name="ipbox" readonly>
+                                                    <button id="keypad_clear" class="btn btn-default">Clear Display</button>
+                                                    <button type="button" class="btn btn-default" id="jBold">Insert Clause</button>
+                                                    <button type="button" class="btn btn-default" id="saveClause">Save</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <div>
+                                                        <table id="keypadLayout">
+                                                            <tr>
+                                                                <td><button id="keypad_x" class="keypadButton">x</button></td>
+                                                                <td><button id="keypad_v" class="keypadButton">v</button></td>
+                                                                <td><button id="keypad_i" class="keypadButton">i</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><button id="keypad_7" class="keypadButton">7</button></td>
+                                                                <td><button id="keypad_8" class="keypadButton">8</button></td>
+                                                                <td><button id="keypad_9" class="keypadButton">9</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><button id="keypad_4" class="keypadButton">4</button></td>
+                                                                <td><button id="keypad_5" class="keypadButton">5</button></td>
+                                                                <td><button id="keypad_6" class="keypadButton">6</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><button id="keypad_1" class="keypadButton">1</button></td>
+                                                                <td><button id="keypad_2" class="keypadButton">2</button></td>
+                                                                <td><button id="keypad_3" class="keypadButton">3</button></td>
+                                                                <tr>
+                                                                    <td><button id="keypad_r" class="keypadButton">(-)</button></td>
+                                                                    <td><button id="keypad_0" class="keypadButton">0</button></td>
+                                                                    <td><button id="keypad_s" class="keypadButton">[-]</button></td>
+                                                                </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

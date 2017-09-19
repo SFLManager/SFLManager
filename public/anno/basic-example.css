@@ -1,0 +1,92 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote { margin:0; padding:0; } /*,th,td*/
+table {  } /*border-collapse:collapse; border-spacing:0;*/
+fieldset,img { border:0; }
+address,caption,cite,code,dfn,em,strong,th,var { font-style:normal; font-weight:normal; }
+caption,th { text-align:left; }
+h1,h3,h4,h5,h6 { font-size:100%; font-weight:normal; }
+q:before,q:after { content:''; }
+abbr,acronym { border:0; }
+
+
+/* optional Container STYLES */
+.chart { height: 600px; margin: 5px; width: 100%; }
+.Treant > .node {  }
+.Treant > p { font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; font-weight: bold; font-size: 12px; }
+.node-name { font-weight: bold;}
+
+.nodeExample1 {
+    padding: 2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: none;
+    text-align: center;
+    width: auto; /*was 200px originally*/
+    font-family: Tahoma;
+    font-size: 12px;
+    align-content: center;
+
+}
+.nodeExample2 {
+    padding: 2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: none;
+    text-align: center;
+    width: auto;
+    font-family: Tahoma;
+    font-size: 12px;
+    align-content: center;
+
+}
+.nodeExample1 img {
+    margin-right:  10px;
+}
+
+.close:before {
+    content: '✕';
+}
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+.button {
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+    width:20%;
+    
+}
+
+.button {
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
+    
+}
+
+.button:hover {
+    background-color: #555555;
+    color: white;
+}
+
+label.button input[type="file"] {
+    position: fixed;
+    top: -1000px;
+    height: 20px;
+}
+
+.inputSpan{
+    font-size: 16px;
+    font-family: Arial;
+}

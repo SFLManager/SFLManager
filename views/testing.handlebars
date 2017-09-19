@@ -1,0 +1,393 @@
+<h1>Testing</h1>
+<!--CSS FOR ANNOTATOR -->
+<link rel="stylesheet" type="text/css" href="/anno/taggle.css">
+<link rel="stylesheet" href="/anno/basic-example.css">
+<!--CSS for basic example of tree generation-->
+<link rel="stylesheet" href="/anno/Treant.css">
+<link rel="stylesheet" href="/anno/annotator.css" />
+<!--CSS for treant-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script>
+    var customInterpolationApp = angular.module('customInterpolationApp', ['ngSanitize']);
+
+    customInterpolationApp.config(function($interpolateProvider) {
+        $interpolateProvider.startSymbol('//');
+        $interpolateProvider.endSymbol('//');
+    });
+
+
+    customInterpolationApp.controller('DemoController', function($scope, $http) {
+        var professor = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/store", {
+            params: {
+                "creator": professor
+            }
+        }).then(function(response) {
+            $scope.myData = response.data;
+        });
+    });
+    //Same as above because I need a second controller just to get the module names for the drop down form menu
+    customInterpolationApp.controller('uploadingAssignment', function($scope, $http) {
+        var professor = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/store", {
+            params: {
+                "creator": professor
+            }
+        }).then(function(response) {
+            $scope.myData = response.data;
+        });
+    });
+    //This is used for returning the assignments the teacher has created
+    customInterpolationApp.controller('returnAssignment', function($scope, $http) {
+        var professor = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/returnAssignments", {
+            params: {
+                "creator": professor
+            }
+        }).then(function(response) {
+            $scope.assignments = response.data;
+            //$scope.text = response.data.text;
+        });
+    });
+
+</script>
+
+
+
+<div ng-app="customInterpolationApp">
+    <h2 id="postUserName" class="align">Dashboard</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-panel" id="scrolly">
+                    <div class="tabbable-line">
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#tab_default_1" data-toggle="tab">
+							Create Class </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_2" data-toggle="tab">
+							View Classes </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_3" data-toggle="tab">
+							Create Assignment </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_4" data-toggle="tab">
+							View Assignments </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_5" data-toggle="tab">
+							Testing Annotator </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_default_1">
+                                <p class="align">Enter Class Details below:</p>
+                                <form method="post" action="/classes/register">
+                                    <div class="form-group">
+                                        <label>Module Code</label>
+                                        <input type="text" class="form-control" placeholder="e.g. CS230" name="modulecode">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Module Name</label>
+                                        <input type="text" class="form-control" placeholder="e.g. Web Infromation Processing" name="modulename">
+                                    </div>
+                                    <div class="form-group">
+                                        <!--<label class="hiding">Professor</label> -->
+                                        <input type="text" class="form-control" placeholder="e.g. Prof. John Keating" name="moduleprofessor" id="moduleprofessor">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Key for Students</label>
+                                        <input type="text" class="form-control" placeholder="e.g. CS230JKMU" name="modulekey" id="modulekey">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                </form>
+
+                            </div>
+                            <div class="tab-pane" id="tab_default_2">
+                                <div ng-controller="DemoController as demo">
+                                    <table style="width:auto" class="table">
+                                        <tr>
+                                            <th>Professor</th>
+                                            <th>Module Name</th>
+                                            <th>Module Code</th>
+                                            <th>Module Key</th>
+                                        </tr>
+                                        <tr ng-repeat="x in myData">
+                                            <td>//x.creator//</td>
+                                            <td>//x.className//</td>
+                                            <td>//x.classCode//</td>
+                                            <td>//x.classKey //</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab_default_3" ng-controller="uploadingAssignment">
+                                <div ng-controller="uploadingAssignment">
+                                    <form method="post" action="/classes/test" encType="multipart/form-data">
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            <input type="text" class="form-control" name="username2" placeholder="Admin_S" id="username2">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Module</label><br>
+                                            <select name="module" class="form-control">
+                            <option ng-repeat="x in myData" >//x.classCode//</option>
+                        </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Title</label><br>
+                                            <input type="text" class="form-control" name="title" placeholder="Annotate this piece of text">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Description</label><br>
+                                            <textarea rows="4" cols="50" name="description" class="form-control">
+                            </textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Text File (if needed)</label>
+                                            <input type="file" class="form-control" name="file" placeholder="assignment.txt" id="files">
+                                        </div>
+                                        <div class="form-group">
+                                            <button type="button" class="form-control" id="sean">Send Text</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Text Area</label><br>
+                                            <textarea rows="4" cols="80" id="name" name="assignmentText"></textarea>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-default">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab_default_4">
+                                <div ng-controller="returnAssignment">
+                                    <table style="width:100%" class="table" id="assignmentsTable">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Module</th>
+                                            <th>Professor</th>
+                                            <th>Title</th>
+                                            <th>Date</th>
+                                            <th>Edit Clauses</th>
+                                            <th>Correct Annotation</th>
+                                        </tr>
+                                        <tr ng-repeat="x in assignments" onclick="modalClauses(this);modalAnnotations(this)">
+                                            <td>//$index +1//</td>
+                                            <td>//x.module//</td>
+                                            <td>//x.creator//</td>
+                                            <td ng-bind-html="x.title"></td>
+                                            <td>//x.date//</td>
+                                            <td ng-bind-html="x.text" style="display:none;"></td>
+                                            <td ng-bind-html="x.description" style="display:none;"></td>
+                                            <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Edit Clauses and Text</button></td>
+                                            <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myAnnotations">Edit Annotations</button></td>
+                                        </tr>
+                                    </table>
+
+                                    <div id="myModal" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 id="modalTitle" class="modal-title" style="text-align:center;">Edit Clauses</h4><br>
+                                                    <h5 id="modalDescription" class="modal-title" style="text-align:center;"></h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="modalText" style="font-size:150%" contenteditable="true"></div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <input id="keypadDisplay" class="form-control" type="" value="" name="ipbox" readonly>
+                                                    <button id="keypad_clear" class="btn btn-default">Clear Display</button>
+                                                    <button type="button" class="btn btn-default" id="jBold">Insert Clause</button>
+                                                    <button type="button" class="btn btn-default" id="saveClause">Save</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <div>
+                                                        <table id="keypadLayout">
+                                                            <tr>
+                                                                <td><button id="keypad_x" class="keypadButton">x</button></td>
+                                                                <td><button id="keypad_v" class="keypadButton">v</button></td>
+                                                                <td><button id="keypad_i" class="keypadButton">i</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><button id="keypad_7" class="keypadButton">7</button></td>
+                                                                <td><button id="keypad_8" class="keypadButton">8</button></td>
+                                                                <td><button id="keypad_9" class="keypadButton">9</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><button id="keypad_4" class="keypadButton">4</button></td>
+                                                                <td><button id="keypad_5" class="keypadButton">5</button></td>
+                                                                <td><button id="keypad_6" class="keypadButton">6</button></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><button id="keypad_1" class="keypadButton">1</button></td>
+                                                                <td><button id="keypad_2" class="keypadButton">2</button></td>
+                                                                <td><button id="keypad_3" class="keypadButton">3</button></td>
+                                                                <tr>
+                                                                    <td><button id="keypad_r" class="keypadButton">(-)</button></td>
+                                                                    <td><button id="keypad_0" class="keypadButton">0</button></td>
+                                                                    <td><button id="keypad_s" class="keypadButton">[-]</button></td>
+                                                                </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div id="myAnnotations" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 id="annotationTitle" class="modal-title" style="text-align:center;">Heyo</h4><br>
+                                                    <h5 id="annotationDescription" class="modal-title" style="text-align:center;"></h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="annotationText" style="font-size:150%"></div>
+                                                    <!--this information is hidden but will be sent to the express to find the mongo document to update when an attempt will be submitted -->
+                                                    <div id="annotationTitle" style="display:none;"></div>
+                                                    <div id="annotationDate" style="display:none;"></div>
+                                                    <div id="annotationModule" style="display:none;"></div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" id="genNewAnn">New Annotation</button>
+                                                    <button type="button" class="btn btn-default" id="uploadAnno">Load Annotation </button>
+                                                    <button type="button" class="btn btn-default" id="uploadAnnotation">Upload Data</button>
+                                                    <button type="button" class="btn btn-default" id="dwnJson">Save</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-content" id="annotationOptions">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4>Tabs for Trees and Box Diagrams</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="allBoxes" style="display: none;">
+                                                        <!--Container to hold box diagrams-->
+                                                    </div>
+                                                    <div id="allTrees" style="display:none;">
+                                                        <!--Container to hold tree-->
+                                                    </div>
+
+                                                </div>
+                                                <div class="modal-footer">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tab_default_5">
+                                <p id="tempStore1"></p>
+
+                                <h1 id="AnalysisMode" style="text-align: center; font-size: 56px; display: none;">Functional Grammar Analysis Mode</h1>
+
+                                <div id="content" style="display: none;">
+
+                                </div>
+
+                                <div id="content2" style="display: none;">
+
+                                </div>
+
+                                <a id="downloadAnchorElem" style="display:none"></a>
+
+                                <!-- <div id="example1" style="width:100px;height:100px"></div> -->
+                                <div style="align-content:center;width:100%;text-align: center;">
+
+                                    <label class="button" id="textInputLabel"><span class="inputSpan">Upload A Text</span><input type="file" id="inputText" value="Import" /><br/></label>
+                                    <p><button class="button" id="generateTrees" style="display: none;" onclick="loadDataForTrees(addTreesToDocument,'1');">Generate Trees</button></p>
+                                    <p><button class="button" id="generateBoxes" style="display: none;" onclick="loadDataForTrees(addBoxDiagramsToDocument,'1');">Generate Box Diagrams</button></p>
+                                    <p><button class="button" id="generateTheme" style="display: none;" onclick="loadDataForTrees(addThemeDiagramsToDocument,'1t');">Generate Theme Diagrams</button></p>
+                                    <p><button class="button" id="genNew" style="display: none;">Create New Annotation Data</button></p>
+                                    <label class="button" id="annotationInput" style="display: none;"><span class="inputSpan">Upload Annotation Data</span><input type="file" id="inputFile" value="Import" /><br/></label>
+                                    <p><button class="button" id="dwnJson" style="display: none;">Download Annotation Data</button></p>
+                                    <p><button class="button" id="themeAnalyse" style="display: none;" onclick="enterThemeMode();">Theme Analysis mode</button></p>
+                                    <p><button class="button" id="grammarAnalyse" style="display: none;" onclick="enterGrammarMode();">Grammar Analysis mode</button></p>
+                                </div>
+                                <div id="allBoxes" style="display: none;">
+                                    <!--Container to hold box diagrams-->
+                                </div>
+                                <div id="allTrees" style="display:none;">
+                                    <!--Container to hold tree-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="/js/bootstrap.js"></script>
+<script src="/js/functions.js"></script>
+
+
+
+<script src="https://code.angularjs.org/1.5.2/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.js"></script>
+
+
+
+<script src="/anno/jquery.js">
+
+
+</script>
+
+<!-- The following line of code should be uncommented for use with electron in generating desktop application -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js" onload="window.$ = window.jQuery = module.exports;"></script> -->
+
+<script src="/anno/annotator.js">
+
+
+</script>
+<script src="/anno/highlighter.js">
+
+
+</script>
+<script src="/anno/rainbow-custom.min.js"></script>
+
+<script src="/anno/raphael.js">
+    // Treant related
+
+</script>
+<script src="/anno/Treant.js">
+    // Treant related
+
+</script>
+<script src="/anno/js.cookie.js"></script>
+
+<script src="/anno/taggle.min.js"></script>
+<script src="/anno/jquery-ui.js">
+
+
+</script>
+
+<script src="/anno/main.js"></script>
+
+<script type="text/coffeescript">
+    # Attept at error handling for touch devices. window.onerror = (msg, file, line) -> alert(msg + ' ' + file + ' ' + line) jQuery.ajaxSetup async: false modules = jQuery.trim """ touch touch/utils touch/editor touch/viewer """ modules = modules.split(/\s+/) run = (file, source) -> filename = file.replace /coffee$/, "js" compiled = "#{CoffeeScript.compile(source)}\n//@ sourceURL=#{filename}" eval(compiled) sources = ("./src/#{script}.coffee" for script in modules) requests = jQuery.map sources, (script) -> jQuery.get script, jQuery.proxy(run, this, script) jQuery.when.apply(jQuery, requests).done -> jQuery("#content").annotator().annotator('addPlugin', 'Touch', { force: location.search.indexOf('force') > -1, useHighlighter: location.search.indexOf('highlighter') > -1 }) window.annotator = jQuery("#content").data('annotator')
+</script>

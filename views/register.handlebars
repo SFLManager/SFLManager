@@ -1,0 +1,43 @@
+<h2 class="page-header">Register</h2>
+<h3>This will register you as a student.<br>Teachers must email an admin for their account.</h3> <br>
+
+{{#if errors}}
+{{#each errors}}
+<div class="alert alert-danger">{{msg}}</div>
+{{/each}}
+{{/if}}
+<form method="post" action="/users/students">
+    <div class="form-group">
+        <label>Surname</label>
+        <input type="text" class="form-control" placeholder="surname" name="surname">
+    </div>
+    <div class="form-group">
+        <label>Firstname</label>
+        <input type="text" class="form-control" placeholder="firstname" name="firstname">
+    </div>
+    <div class="form-group">
+        <label>Student Number</label>
+        <input type="text" class="form-control" placeholder="student number" name="studentnumber">
+    </div>
+        <div class="form-group">
+        <label>Username</label>
+        <input type="text" class="form-control" placeholder="username" name="username">
+    </div>
+    <div class="form-group">
+        <label>University</label>
+        <input type="text" class="form-control" placeholder="university" name="university">
+    </div>
+       <div class="form-group">
+        <label>Email</label>
+        <input type="text" class="form-control" placeholder="email" name="email">
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" placeholder="password" name="password">
+    </div> 
+    <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" class="form-control" placeholder="confirm password" name="password2">
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>

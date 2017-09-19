@@ -1,0 +1,114 @@
+<h1>Admin Launch Control</h1>
+
+<h2 class = "page-header">Welcome</h2>
+<h3>How would you like to exercise your powers today?</h3><br>
+
+<a onclick="showCreateDiv()" class="dashboard">Create Teacher Account</a><br>
+<a onclick="manageTeachDiv()" class="dashboard">View Teacher Accounts</a><br>
+<a onclick="manageStudentDiv()" class="dashboard">Manage Student Accounts</a><br>
+
+
+<div id="create">
+    <h4>Create Teacher Account</h4>
+    {{#if errors}}
+    {{#each errors}}
+    <div class="alert alert-danger">{{msg}}</div>
+    {{/each}}
+    {{/if}}
+    <form method="post" action="/users/register">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" placeholder="Seán Comerford" name="name">
+        </div>
+        <div class="form-group">
+            <label>University</label>
+            <input type="text" class="form-control" placeholder="Maynooth University" name="university">
+        </div>
+        <div class="form-group">
+            <label>E-Mail</label>
+            <input type="text" class="form-control" placeholder="example@mumail.ie" name="email">
+        </div>
+        <div class="form-group">
+            <label>Username</label>
+            <input type="text" class="form-control" placeholder="SComerford" name="username">
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="text" class="form-control" placeholder="algjns456" name="password">
+        </div>
+        <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="text" class="form-control" placeholder="algjns456" name="password2">
+        </div>
+
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</div>
+<div ng-app="customInterpolationApp">
+    <div id="manageTeach"> 
+        <h4>Manage Teacher Accounts</h4>
+        <div ng-controller="DemoController as demo">
+            <table style="width:100%" class="table" id="tableCreateUsers">
+                <tr>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>E-mail</th>
+                    <th>University</th>
+                </tr>
+                <tr ng-repeat="x in myData">
+                    <td>//x.name//</td>
+                    <td>//x.username//</td>
+                    <td>//x.email//</td>
+                    <td>//x.university //</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="manageStudents"> 
+        <h4>Manage Student Accounts</h4>
+        <div ng-controller="students">
+            <table style="width:100%" class="table">
+                <tr>
+                    <th>Firstname</th>
+                    <th>Surname</th>
+                    <th>E-mail</th>
+                    <th>Username</th>
+                </tr>
+                <tr ng-repeat="x in mySData">
+                    <td>//x.firstname//</td>
+                    <td>//x.surname//</td>
+                    <td>//x.email//</td>
+                    <td>//x.university //</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var customInterpolationApp = angular.module('customInterpolationApp', []);
+
+    customInterpolationApp.config(function($interpolateProvider) {
+        $interpolateProvider.startSymbol('//');
+        $interpolateProvider.endSymbol('//');
+    });
+
+
+    customInterpolationApp.controller('DemoController', function($scope, $http) {
+        $http.post("/users/everything").then(function (response) {
+            $scope.myData = response.data;
+        });
+    });
+
+    customInterpolationApp.controller('students', function($scope, $http) {
+        $http.get("/users/students").then(function (response) {
+            $scope.mySData = response.data;
+        });
+    });
+</script>
+
+<script src="https://code.angularjs.org/1.5.2/angular.js"></script>

@@ -1,0 +1,163 @@
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var customInterpolationApp = angular.module('customInterpolationApp', ['ngSanitize']);
+
+    customInterpolationApp.config(function($interpolateProvider) {
+        $interpolateProvider.startSymbol('//');
+        $interpolateProvider.endSymbol('//');
+    });
+
+
+    customInterpolationApp.controller('DemoController', function($scope, $http) {
+        var studentID = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/enrolledin", {
+            params: {
+                "creator": studentID
+            }
+        }).then(function(response) {
+            $scope.myData = response.data;
+        });
+    });
+
+    customInterpolationApp.controller('returnAssignment', function($scope, $http) {
+        var studentID = document.getElementById('postUserName').innerHTML;
+        $http.get("/classes/assignments", {
+            params: {
+                "student": studentID
+            }
+        }).then(function(response) {
+            $scope.assignments = response.data;
+        });
+    });
+
+</script>
+
+<script src="/js/bootstrap.js"></script>
+<script src="/js/functions.js"></script>
+
+
+<script src="https://code.angularjs.org/1.5.2/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.js"></script>
+<div ng-app="customInterpolationApp">
+    <h2 id="postUserName" class="align">Dashboard</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tabbable-panel" id="scrolly">
+                    <div class="tabbable-line">
+                        <ul class="nav nav-tabs ">
+                            <li class="active">
+                                <a href="#tab_default_1" data-toggle="tab">
+							Join Class </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_2" data-toggle="tab">
+							View Classes </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_3" data-toggle="tab">
+							View Tutorials </a>
+                            </li>
+                            <li>
+                                <a href="#tab_default_4" data-toggle="tab">
+							View Assignments </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tab_default_1">
+                                <p class="align">Input the Class ID as given to you by your professor</p>
+                                <form method="post" action="/classes/enroll">
+                                    <div class="form-group">
+                                        <label>Module ID</label>
+                                        <input type="text" class="form-control" placeholder="e.g. 595a155c7840e631c469f01e" name="modulecode">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type="text" class="form-control" placeholder="e.g. JSmith" name="username" id="classForm">
+                                    </div>
+
+
+                                    <button type="submit" class="btn btn-default">Submit</button>
+                                </form>
+
+
+                            </div>
+                            <div class="tab-pane" id="tab_default_2">
+                                <div ng-controller="DemoController as demo">
+                                    <table style="width:100%" class="table" id="tableCreateUsers">
+                                        <tr>
+                                            <th>Professor</th>
+                                            <th>Class Name</th>
+                                            <th>Class Code</th>
+                                            <th>Class ID</th>
+                                        </tr>
+                                        <tr ng-repeat="x in myData">
+                                            <td>//x.matching[0].creator//</td>
+                                            <td>//x.matching[0].className//</td>
+                                            <td>//x.matching[0].classCode//</td>
+                                            <td>//x.matching[0]._id //</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tab_default_3">
+                                <p class="align">View the tutorials enrolled in, coming soon.</p>
+                            </div>
+                            <div class="tab-pane" id="tab_default_4">
+                                <div ng-controller="returnAssignment">
+                                    <table style="width:100%" class="table" id="assignmentsTable">
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Module</th>
+                                            <th>Professor</th>
+                                            <th>Title</th>
+                                            <th>Date</th>
+                                            <th>Annotate</th>
+                                        </tr>
+                                        <tr ng-repeat="x in assignments" onclick="modalStudentAssignment(this)">
+                                            <td>//$index +1//</td>
+                                            <td>//x.classCode//</td>
+                                            <td>//x.creator//</td>
+                                            <td>//x.assignments.title//</td>
+                                            <td>//x.assignments.date//</td>
+                                            <td ng-bind-html="x.assignments.text" style="display:none;"></td>
+                                            <td ng-bind-html="x.assignments.description" style="display:none;"></td>
+                                            <td><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Annotate and Submit</button></td>
+                                        </tr>
+                                    </table>
+
+                                    <div id="myModal" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h4 id="modalTitle" class="modal-title" style="text-align:center;">Annotate</h4><br>
+                                                    <h5 id="modalDescription" class="modal-title" style="text-align:center;"></h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div id="modalText" style="font-size:150%" contenteditable="true"></div>
+
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" id="saveClause">Save</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>

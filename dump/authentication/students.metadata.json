@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"authentication.students"},{"v":2,"key":{"studentnumber":1},"name":"studentnumber_1","ns":"authentication.students","background":true}]}

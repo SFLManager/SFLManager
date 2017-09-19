@@ -1,0 +1,271 @@
+/* Space out content a bit */
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: #f2f2f2;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+}
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+/* Customize container */
+@media (min-width: 768px) {
+  .container {
+    max-width: 730px;
+  }
+}
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+  text-align: center;
+  border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+  padding: 14px 24px;
+  font-size: 21px;
+}
+
+/* Supporting marketing content */
+.marketing {
+  margin: 40px 0;
+}
+.marketing p + h4 {
+  margin-top: 28px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+  /* Remove the padding we set earlier */
+  .header,
+  .marketing,
+  .footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+  /* Space out the masthead */
+  .header {
+    margin-bottom: 30px;
+  }
+  /* Remove the bottom border on the jumbotron for visual effect */
+  .jumbotron {
+    border-bottom: 0;
+  }
+}
+.page-header {
+    margin-top:0;
+}
+footer {
+    margin-top:40px;
+}
+
+#tableCreateUsers , td , th {
+    background-color: #fefefe;
+    border:  = 1px solid black;
+}
+
+
+
+#newStudentsDiv, #manageStudentDiv, #manageTutorialDiv, #manageRepoDiv {
+    display: none;
+} 
+
+#dataButton {
+    margin-top:10px;
+}
+
+#joinClass, #viewClass, #viewTutorials, #viewAssignments {
+    display:none;
+}
+
+#create, #manageTeach, #manageStudents {
+    display: none;
+}
+
+#upload, #view {
+  display:none;
+}
+
+#moduleprofessor {
+    display:none;
+}
+
+/***
+    Bootstrap Line Tabs by @keenthemes
+    A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+    Licensed under MIT
+    ***/
+    
+    /* Tabs panel */
+    .tabbable-panel {
+      padding: 10px;
+    }
+    
+    /* Default mode */
+    .tabbable-line > .nav-tabs {
+      border: none;
+      margin: 0px;
+    }
+    .tabbable-line > .nav-tabs > li {
+      margin-right: 2px;
+    }
+    .tabbable-line > .nav-tabs > li > a {
+      border: 0;
+      margin-right: 0;
+      color: #737373;
+    }
+    .tabbable-line > .nav-tabs > li > a > i {
+      color: #a6a6a6;
+    }
+    .tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
+      border-bottom: 4px solid #fbcdcf;
+    }
+    .tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
+      border: 0;
+      background: none !important;
+      color: #333333;
+    }
+    .tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i {
+      color: #a6a6a6;
+    }
+    .tabbable-line > .nav-tabs > li.open .dropdown-menu, .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
+      margin-top: 0px;
+    }
+    .tabbable-line > .nav-tabs > li.active {
+      border-bottom: 4px solid #3366BB;
+      position: relative;
+    }
+    .tabbable-line > .nav-tabs > li.active > a {
+      border: 0;
+      color: #333333;
+    }
+    .tabbable-line > .nav-tabs > li.active > a > i {
+      color: #404040;
+    }
+    .tabbable-line > .tab-content {
+      margin-top: -3px;
+      background-color: #fff;
+      border: 0;
+      border-top: 1px solid #eee;
+      padding: 10px;
+    }
+    .portlet .tabbable-line > .tab-content {
+      padding-bottom: 0;
+    }
+
+.align {
+    text-align:center;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+/* This is the css styling for clauses */
+p.small {
+    line-height: 150%;
+}
+
+p.big {
+    line-height: 200%;
+}
+
+.superscript {
+    position: relative;
+    bottom: 0.5em;
+    color: red;
+    font-size: 0.8em;
+}
+
+.subscript {
+    position: relative;
+    top: 0.3em;
+    color: blue;
+    font-size: 0.5em;
+    font-variant: normal;
+}
+/* This is the css for the keypad clause tool */
+.keypadControl { /* style some nice buttons */
+  width: 50%; height: 30px; padding: 2px; 
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px; text-align: center; text-decoration: none;
+  border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;
+  border: 1px solid #CACACA;
+  color: black; background-color: #eee; 
+  cursor: pointer;
+  -webkit-transition-duration: 0.2s; /* Safari */
+  transition-duration: 0.2s;
+    
+}
+
+.keypadControl:hover {
+  background-color: #111; color: #eee; 
+}
+
+.keypadButton { /* style some nice buttons */
+  width: 30px; height: 30px; padding: 2px; 
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 16px; text-align: center; text-decoration: none;
+  border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;
+  border: 1px solid #444;
+  color: #fff; background-color: #555; 
+  cursor: pointer;
+  -webkit-transition-duration: 0.2s; /* Safari */
+  transition-duration: 0.2s;
+    display:inline-table;
+}
+
+.keypadButton:hover {
+  background-color: #ccc; color: #111; 
+}
+
+#keypadDisplay {
+  -moz-border-radius: 5px; -webkit-border-radius: 5px;
+  background-color: #EAEAEA; cursor: cell;
+  border: 1px solid #222; color: #444; font-size: 12pt; text-align: center;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif; text-decoration: none;
+  padding: 4px; width: 150px;
+    float:left;
+    width:100px;
+}
+
+#keypadLayout {
+  margin: 0 auto;
+}
+
+#keypadWrapper {
+    border-radius: 10px; border: 1px solid #111; padding: 5px; 
+    background-color: #aaa;
+    width: 50%; height: 210px; margin: auto;
+    float: left;
+    position:relative;
+    left:67%;
+}
+
+
